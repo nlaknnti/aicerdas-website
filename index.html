@@ -11,6 +11,9 @@
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">✦ AI<em>Cerdas</em></a>
+    <div class="hamburger" onclick="toggleNav()" id="ham">
+  <span></span><span></span><span></span>
+</div>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Beranda</a></li>
       <li><a href="materi.html">Materi</a></li>
@@ -155,6 +158,10 @@
   <p>© 2026 <strong>AICerdas</strong> Website Edukasi Digital untuk Mahasiswa Universitas Satya Terra Bhinneka</p>
   <p>Dibuat dalam rangka penelitian mata kuliah Kecerdasan Buatan</p>
 </footer>
-
+<script>
+function toggleNav() {
+  document.querySelector('.nav-links').classList.toggle('open');
+}
+</script>
 </body>
 </html>
