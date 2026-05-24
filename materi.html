@@ -11,6 +11,9 @@
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">✦ AI<em>Cerdas</em></a>
+    <div class="hamburger" onclick="toggleNav()" id="ham">
+  <span></span><span></span><span></span>
+</div>
     <ul class="nav-links">
       <li><a href="index.html">Beranda</a></li>
       <li><a href="materi.html" class="active">Materi</a></li>
@@ -200,6 +203,11 @@ function toggle(btn) {
   const open = btn.classList.contains('open');
   document.querySelectorAll('.accordion-btn').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
   if (!open) { btn.classList.add('open'); body.classList.add('open'); }
+}
+</script>
+  <script>
+function toggleNav() {
+  document.querySelector('.nav-links').classList.toggle('open');
 }
 </script>
 </body>
