@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz – AICerdas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">✦ AI<em>Cerdas</em></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="materi.html">Materi</a></li>
+      <li><a href="skill.html">Skill Manusia</a></li>
+      <li><a href="tips.html">Tips & Trik</a></li>
+      <li><a href="quiz.html" class="active">Quiz</a></li>
+      <li><a href="tentang.html">Tentang</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="badge">✅ Quiz Self-Assessment</div>
+  <h1>Seberapa <em>Sehat</em> Cara Kamu Pakai AI?</h1>
+  <p>Jawab 10 pertanyaan berikut untuk mengetahui pola penggunaan AImu dan dapatkan rekomendasi personal.</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="container">
+    <div class="quiz-wrap">
+
+      <!-- Start -->
+      <div id="start">
+        <div style="text-align: center; padding: 20px 0 40px;">
+          <div style="font-size: 3rem; margin-bottom: 20px;">🤖</div>
+          <h2 style="font-family:'Lora',serif; font-size:1.6rem; color:var(--navy); margin-bottom:12px;">Quiz Self-Assessment AI</h2>
+          <p style="color:var(--text-sm); max-width:460px; margin: 0 auto 12px; line-height:1.7;">Quiz ini terdiri dari <strong>10 pertanyaan</strong> tentang kebiasaan penggunaan AI-mu. Jawab dengan jujur sesuai kondisi nyatamu.</p>
+          <p style="color:var(--text-sm); max-width:460px; margin: 0 auto 28px; line-height:1.7;">Di akhir kamu akan mendapatkan <strong>profil penggunaan AI</strong> beserta rekomendasi personal.</p>
+          <button class="btn btn-primary" style="padding: 12px 32px;" onclick="start()">Mulai Quiz →</button>
+        </div>
+      </div>
+
+      <!-- Quiz -->
+      <div id="quiz" style="display:none;">
+        <div class="quiz-progress"><div class="quiz-bar" id="bar" style="width:10%"></div></div>
+        <div class="quiz-card">
+          <div class="quiz-counter" id="counter">Pertanyaan 1 dari 10</div>
+          <div class="quiz-q" id="qtext"></div>
+          <div class="quiz-opts" id="opts"></div>
+          <div class="quiz-feedback" id="feedback"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" id="nextbtn" onclick="next()" style="display:none;">Lanjut →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="result" style="display:none;">
+        <div class="quiz-card" style="text-align:center; padding: 40px 32px;">
+          <div style="font-size:2.8rem; margin-bottom:16px;" id="remoji"></div>
+          <div class="score-big"><span id="scorenum">0</span><span>/30</span></div>
+          <h3 style="font-family:'Lora',serif; font-size:1.3rem; color:var(--navy); margin: 16px 0 8px;" id="rtitle"></h3>
+          <p style="color:var(--text-sm); line-height:1.7; margin-bottom:24px; max-width:480px; margin-left:auto; margin-right:auto;" id="rdesc"></p>
+
+          <div style="background:var(--blue-100); border:1px solid var(--blue-200); border-radius:var(--radius); padding:22px 24px; text-align:left; margin-bottom:28px;">
+            <div style="font-size:0.82rem; font-weight:700; color:var(--navy); margin-bottom:10px; letter-spacing:0.05em; text-transform:uppercase;">💡 Rekomendasi untuk Kamu</div>
+            <ul id="rtips" style="padding-left:18px; color:var(--text-sm); font-size:0.87rem; line-height:1.8;"></ul>
+          </div>
+
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="restart()">🔁 Ulangi Quiz</button>
+            <a href="tips.html" class="btn btn-soft">Lihat Tips & Trik</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <strong>AICerdas</strong> Website Edukasi Digital untuk Mahasiswa Universitas Satya Terra Bhinneka</p>
+  <p>Dibuat dalam rangka penelitian mata kuliah Kecerdasan Buatan</p>
+</footer>
+
+<script>
+const qs = [
+  {
+    q: "Ketika mendapat tugas kuliah, apa yang pertama kali kamu lakukan?",
+    opts: ["Langsung tanya AI dan copy hasilnya","Coba kerjakan sendiri dulu, baru tanya AI jika buntu","Tanya AI untuk gambaran awal, lalu kembangkan sendiri","Tidak pernah menggunakan AI untuk tugas"],
+    scores: [0,3,2,1],
+    fb: ["Menggunakan AI langsung tanpa proses berpikir dapat menghambat perkembanganmu. Coba kerjakan sendiri dulu minimal 15 menit sebelum bertanya ke AI.","Bagus! Mengerjakan sendiri dulu adalah kebiasaan yang sangat baik.","Pendekatan yang seimbang! Mendapat gambaran awal lalu dikembangkan sendiri adalah cara efektif.","Mengerjakan mandiri sangat baik, tapi AI yang digunakan bijak juga bisa bantu produktivitasmu."]
+  },
+  {
+    q: "Saat AI memberikan informasi atau fakta, apa yang kamu lakukan?",
+    opts: ["Langsung percaya dan gunakan tanpa cek ulang","Kadang cek, kadang tidak tergantung urgensinya","Selalu verifikasi ke minimal satu sumber lain","Selalu verifikasi ke beberapa sumber terpercaya"],
+    scores: [0,1,2,3],
+    fb: ["Ini berbahaya! AI bisa 'hallucinate' — selalu verifikasi fakta penting.","Lebih baik selalu verifikasi, terutama untuk tugas atau keputusan penting.","Bagus! Satu sumber verifikasi sudah baik, coba tambah ke 2-3 sumber untuk hal penting.","Excellent! Memverifikasi ke beberapa sumber adalah standar tertinggi."]
+  },
+  {
+    q: "Seberapa sering kamu mencantumkan referensi dari AI langsung ke tugas akademik?",
+    opts: ["Sering, langsung copy sitasi yang diberikan AI","Kadang-kadang jika terdengar meyakinkan","Jarang, biasanya saya cari referensi aslinya","Tidak pernah, selalu cari sumber asli"],
+    scores: [0,1,2,3],
+    fb: ["Hati-hati! AI sering membuat sitasi palsu yang terdengar nyata. Selalu cari referensi aslinya di Google Scholar.","Tetap verifikasi ya! Referensi yang 'terdengar meyakinkan' dari AI bisa saja tidak ada.","Kebiasaan yang baik! Mencari referensi asli memastikan integritas akademik tugasmu.","Sangat bertanggung jawab! Selalu mencari sumber asli adalah standar integritas tertinggi."]
+  },
+  {
+    q: "Bagaimana perasaanmu ketika harus mengerjakan tugas TANPA bantuan AI?",
+    opts: ["Sangat cemas dan tidak percaya diri","Agak kesulitan tapi masih bisa","Bisa, meski butuh waktu lebih lama","Sangat nyaman, AI hanya bonus"],
+    scores: [0,1,2,3],
+    fb: ["Kecemasan tinggi tanpa AI adalah tanda ketergantungan. Coba sengaja kerjakan beberapa tugas tanpa AI untuk membangun kepercayaan dirimu kembali.","Masih dalam batas wajar, tapi perlu dilatih. Tantang dirimu untuk lebih sering mengerjakan mandiri.","Bagus! Kamu masih memiliki kemandirian akademik yang baik.","Luar biasa! Kemandirian seperti ini adalah fondasi yang kuat untuk masa depanmu."]
+  },
+  {
+    q: "Ketika AI memberikan jawaban yang berbeda dari pemahamanmu, apa yang kamu lakukan?",
+    opts: ["Langsung percaya AI dan ubah pemahamanku","Bingung dan tidak tahu harus percaya yang mana","Cari sumber ketiga untuk memvalidasi","Analisis keduanya secara kritis dan cari bukti pendukung"],
+    scores: [0,1,2,3],
+    fb: ["Kamu tidak harus selalu mempercayai AI. Pemahamanmu bisa saja benar! Selalu cari sumber tambahan saat ada perbedaan.","Kebingungan ini normal. Solusinya adalah mencari sumber ketiga yang terpercaya.","Tepat! Mencari validasi dari sumber ketiga adalah cara yang sangat baik.","Sempurna! Analisis kritis dengan mencari bukti pendukung adalah pendekatan ilmiah yang ideal."]
+  },
+  {
+    q: "Seberapa sering kamu menggunakan AI dalam satu hari untuk keperluan akademik?",
+    opts: ["Hampir setiap aktivitas akademik pakai AI","Beberapa kali sehari untuk tugas-tugas tertentu","Hanya ketika benar-benar membutuhkan","Sangat jarang atau tidak pernah"],
+    scores: [0,2,3,1],
+    fb: ["Penggunaan di hampir semua aktivitas berisiko membuat kemampuan mandirimu menurun. Coba tetapkan batasan kapan boleh menggunakan AI.","Penggunaan yang terukur dan bertujuan! Ini adalah pola yang sehat.","Penggunaan yang selektif menunjukkan kemampuan berpikir mandiri yang kuat.","Jarang menggunakan AI bisa membuat kamu ketinggalan tools bermanfaat. AI yang digunakan bijak bisa meningkatkan produktivitas."]
+  },
+  {
+    q: "Bagaimana cara kamu membuat prompt (pertanyaan) ke AI?",
+    opts: ["Seadanya, langsung ketik pertanyaan singkat","Cukup jelas tapi jarang memberikan konteks lengkap","Selalu memberikan konteks dan tujuan yang jelas","Merancang prompt dengan detail, konteks, dan format yang diinginkan"],
+    scores: [0,1,2,3],
+    fb: ["Prompt yang kurang spesifik menghasilkan jawaban kurang relevan. Tambahkan konteks: siapa kamu, apa tujuanmu, format apa yang diinginkan.","Sudah cukup baik, tapi konteks yang lebih lengkap akan meningkatkan kualitas jawaban AI secara signifikan.","Bagus! Memberikan konteks yang jelas adalah kunci mendapatkan jawaban AI yang relevan.","Excellent! Kemampuan prompt engineering yang baik adalah skill berharga di era AI."]
+  },
+  {
+    q: "Apa yang kamu lakukan untuk menjaga skill akademikmu di era AI?",
+    opts: ["Tidak terlalu memikirkannya, AI ada untuk membantu","Sesekali latihan tanpa AI tapi tidak rutin","Secara sadar melatih kemampuan tertentu tanpa AI","Punya strategi jelas untuk menyeimbangkan AI dan pengembangan diri"],
+    scores: [0,1,2,3],
+    fb: ["Kemampuan akademik perlu terus dilatih agar tidak menurun. AI tidak akan selalu tersedia, dan kemampuan mandiri tetap menjadi nilai utamamu.","Lebih baik dari tidak sama sekali! Coba jadwalkan waktu khusus untuk berlatih tanpa AI secara rutin.","Kesadaran yang bagus! Melatih kemampuan secara sengaja adalah investasi jangka panjang.","Luar biasa! Strategi yang jelas menunjukkan kedewasaan dalam memanfaatkan teknologi."]
+  },
+  {
+    q: "Bagaimana sikapmu terhadap privasi saat menggunakan AI?",
+    opts: ["Tidak pernah memikirkannya, bebas memasukkan informasi apa saja","Tahu ada risiko tapi tetap memasukkan data sensitif","Berhati-hati dengan informasi personal dan data orang lain","Sangat sadar privasi, tidak pernah memasukkan data sensitif"],
+    scores: [0,1,2,3],
+    fb: ["Penting untuk sadar privasi! Data yang kamu masukkan ke AI bisa digunakan untuk pelatihan model.","Mengetahui risiko tapi tetap memasukkan data sensitif adalah kebiasaan berbahaya. Kesadaran saja tidak cukup.","Bagus! Berhati-hati dengan informasi sensitif adalah praktik digital yang bertanggung jawab.","Sangat baik! Kesadaran tinggi terhadap privasi digital adalah skill penting di era AI."]
+  },
+  {
+    q: "Bagaimana kamu memandang peranmu di dunia kerja nanti di era AI?",
+    opts: ["Sangat khawatir akan digantikan AI","Agak khawatir, tidak yakin dengan masa depan","Optimis, akan belajar berkolaborasi dengan AI","Sangat optimis, tahu skill manusia tidak tergantikan"],
+    scores: [0,1,2,3],
+    fb: ["Kecemasan tentang masa depan wajar, tapi ingat: empati, kreativitas, kepemimpinan tidak bisa digantikan AI. Fokuslah mengembangkan skill ini.","Ketidakpastian itu normal! Dengan terus belajar dan mengembangkan skill yang AI tidak bisa lakukan, masa depanmu tetap cerah.","Pandangan yang sehat! Kolaborasi manusia-AI adalah masa depan, dan kamu sudah siap untuk itu.","Mindset yang luar biasa! Keyakinan pada nilai unik manusia sambil terus belajar adalah resep sukses."]
+  }
+];
+
+let cur = 0, scores = [], sel = null;
+
+function start() {
+  document.getElementById('start').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  render();
+}
+
+function render() {
+  sel = null;
+  const q = qs[cur];
+  document.getElementById('counter').textContent = `Pertanyaan ${cur+1} dari ${qs.length}`;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('bar').style.width = `${((cur+1)/qs.length)*100}%`;
+  document.getElementById('nextbtn').style.display = 'none';
+  const fb = document.getElementById('feedback');
+  fb.className = 'quiz-feedback'; fb.textContent = '';
+  const opts = document.getElementById('opts');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const b = document.createElement('button');
+    b.className = 'quiz-opt'; b.textContent = o;
+    b.onclick = () => pick(i, b);
+    opts.appendChild(b);
+  });
+}
+
+function pick(i, btn) {
+  if (sel !== null) return;
+  sel = i;
+  const q = qs[cur];
+  scores.push(q.scores[i]);
+  document.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const fb = document.getElementById('feedback');
+  const good = q.scores[i] >= 2;
+  fb.textContent = (good ? '✅ ' : '💡 ') + q.fb[i];
+  fb.className = `quiz-feedback show ${good ? 'ok' : 'bad'}`;
+  const nb = document.getElementById('nextbtn');
+  nb.style.display = 'block';
+  nb.textContent = cur < qs.length - 1 ? 'Lanjut →' : 'Lihat Hasil →';
+}
+
+function next() {
+  cur++;
+  if (cur < qs.length) { render(); }
+  else { showResult(); }
+}
+
+function showResult() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  const total = scores.reduce((a,b) => a+b, 0);
+  const pct = (total / (qs.length * 3)) * 100;
+  document.getElementById('scorenum').textContent = total;
+
+  let emoji, title, desc, tips;
+  if (pct >= 80) {
+    emoji = '🌟'; title = 'Pengguna AI yang Sangat Bijak!';
+    desc = 'Selamat! Kamu sudah menggunakan AI dengan cara yang sangat sehat dan bertanggung jawab. Kamu memiliki kesadaran tinggi tentang batasan AI dan tidak bergantung secara berlebihan.';
+    tips = ['Bagikan kebiasaan baikmu ini kepada teman-temanmu','Terus tingkatkan skill prompt engineering','Pertimbangkan untuk mempelajari cara kerja AI lebih mendalam'];
+  } else if (pct >= 60) {
+    emoji = '👍'; title = 'Pengguna AI yang Cukup Bijak';
+    desc = 'Kamu sudah berada di jalur yang baik! Sebagian besar kebiasaanmu sudah sehat, meski ada beberapa area yang masih bisa ditingkatkan.';
+    tips = ['Tingkatkan kebiasaan verifikasi informasi dari AI ke sumber primer','Latih diri untuk lebih sering mengerjakan tugas tanpa AI terlebih dahulu','Pelajari teknik prompt engineering untuk hasil yang lebih relevan'];
+  } else if (pct >= 40) {
+    emoji = '⚠️'; title = 'Perlu Perhatian dalam Penggunaan AI';
+    desc = 'Ada beberapa kebiasaan yang perlu diperbaiki. Dengan kesadaran dan latihan, kamu bisa meningkatkan pola penggunaan AI menjadi lebih sehat.';
+    tips = ['Biasakan verifikasi semua fakta penting dari AI ke sumber lain','Coba kerjakan tugas sendiri dulu sebelum bertanya ke AI','Baca modul "AI Bisa Salah" di halaman Materi kami','Jadwalkan waktu tanpa AI untuk melatih kemampuan mandirimu'];
+  } else {
+    emoji = '🆘'; title = 'Ketergantungan AI yang Perlu Diatasi';
+    desc = 'Pola penggunaan AI-mu saat ini berisiko menghambat perkembanganmu. Tapi mengenali masalah adalah langkah pertama menuju perubahan!';
+    tips = ['Baca seluruh materi di website ini mulai dari halaman Materi','Tetapkan aturan: kerjakan tugas sendiri minimal 30 menit sebelum tanya AI','Jangan pernah copy-paste jawaban AI tanpa proses berpikir','Ingat: AI adalah alat bantumu, bukan pengganti otakmu'];
+  }
+
+  document.getElementById('remoji').textContent = emoji;
+  document.getElementById('rtitle').textContent = title;
+  document.getElementById('rdesc').textContent = desc;
+  document.getElementById('rtips').innerHTML = tips.map(t => `<li>${t}</li>`).join('');
+}
+
+function restart() {
+  cur = 0; scores = []; sel = null;
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  render();
+}
+</script>
+</body>
+</html>
