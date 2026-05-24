@@ -446,8 +446,44 @@ footer strong { color: var(--blue-300); }
 .divider { height: 1px; background: var(--blue-200); margin: 0; }
 
 @media (max-width: 768px) {
-  .nav-links { display: none; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 62px;
+    left: 0; right: 0;
+    background: white;
+    border-bottom: 1px solid var(--blue-200);
+    padding: 12px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 99;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a {
+    padding: 12px 24px;
+    border-radius: 0;
+    font-size: 0.95rem;
+  }
   .container { padding: 0 20px; }
   .page-header { padding: 40px 20px 36px; }
   .section, .section-alt { padding: 48px 0; }
+}
+
+/* Hamburger - sembunyikan di desktop */
+.hamburger { display: none; }
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+  }
+  .hamburger span {
+    width: 24px; height: 2px;
+    background: var(--navy);
+    border-radius: 2px;
+  }
+
 }
